@@ -1,3 +1,4 @@
+const path = require("path")
 const service = require("../services/productservice.js")
 const users = []
 const getcontrol = (req,res)=>{
@@ -8,7 +9,7 @@ const getcontrol = (req,res)=>{
 }
 const getid = (req,res)=>{
     const a = service.fetchid(req.params.id,users)
-    if(a==404) res.status(404).send(`Product Not Found ...`)
+    if(a==404) res.status(404).sendFile(path.join(__dirname,"..","view","index.html"))
     else    res.status(200).send(`Id with Product is ${a}`)
 }
 const postcontrol = (req,res)=>{
