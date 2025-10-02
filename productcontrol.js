@@ -1,3 +1,4 @@
+const service = require("../services/productservice.js")
 const users = []
 const getcontrol = (req,res)=>{
     res.status(200).json({
@@ -6,24 +7,15 @@ const getcontrol = (req,res)=>{
     })
 }
 const getid = (req,res)=>{
-    for(let x of users)
-    {
-        if(x.id == req.params.id)
-        {
-            res.status(200).send(`Id with Product is ${x.name}`)
-        }
-    }
-    res.status(404).send(`Product Not Found ...`)
+    const a = service.fetchid(req.params.id,users)
+    if(a==404) res.status(404).send(`Product Not Found ...`)
+    else    res.status(200).send(`Id with Product is ${a}`)
 }
 const postcontrol = (req,res)=>{
-    let obj = {
-        id : users.length +1,
-        name : req.body.name
-    }
-    users.push(obj)
+    const a = service.postservice(req,users)
     res.status(201).json({
         message : `new Product has been Added`,
-        data : obj
+        data : a
     })
 }
 module.exports = {getcontrol,getid,postcontrol}
